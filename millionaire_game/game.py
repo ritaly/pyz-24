@@ -1,6 +1,13 @@
 def check_answer_correct(question, answer):
     return question.correct_answer == answer
 
+def score_modifier(base_score):
+    def calculate(answer_correct):
+        if answer_correct:
+            return base_score * 2
+        return 0
+    return calculate
+
 class Game:
     def __init__(self, questions):
         self.questions = questions

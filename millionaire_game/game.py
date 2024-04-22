@@ -24,7 +24,7 @@ class Game:
         else:
             raise IndexError
 
-    def get_next_question(self):
+    def get_next_question(self, level = None):
         if self._current_question_index < len(self.questions):
             question = self.questions[self._current_question_index]
             self._current_question_index += 1

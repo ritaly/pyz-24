@@ -33,14 +33,21 @@ def play_game(game):
             break
     print(f"Your final score is: {game.get_score()}")
 
+def difficulty_filtr(level):
+    def filter_questions(question):
+        return question.difficulty == level
+    return filter_questions
 
 def main():
     question_list = load_questions_from_file('questions.json')
+    # TO-DO: dodać odczytywanie poziomu od użytkownika
+    easy_questions = list(filter(difficulty_filtr('easy'), question_list))
+
 
     while True:
         quests = """What kind of game you wanna play
          1 - normal
-         2 - with hints 
+         2 - with hints
          3 - timed
           Select -> """
 

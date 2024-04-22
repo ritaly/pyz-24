@@ -5,7 +5,7 @@ def score_modifier(base_score):
     def calculate(answer_correct):
         if answer_correct:
             return base_score * 2
-        return 0
+        return -50
     return calculate
 
 class Game:
@@ -14,7 +14,19 @@ class Game:
         self._current_question_index = 0
         self._score = 0
         self.check = check_answer_correct
+        self.calculate_score = score_modifier(100)
 
+    def submit_answer(self, answer):
+        current_question = self.questions[self._current_question_index - 1]
+        if self.check(current_question, answer):
+            self._score += self.calculate_score(True)
+            return True
+        else:
+            self._score += self.calculate_score(False)
+            return False
+
+    def get_score(self):
+        return f'{self._score} PLN'
     def __str__(self):
         return f"Current score: {self._score}"
     def __len__(self):

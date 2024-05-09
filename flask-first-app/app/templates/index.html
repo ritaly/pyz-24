@@ -1,17 +1,9 @@
- <!DOCTYPE html>
- <html>
-  <head>
-      {% if title %}
-       <title>{{ title }} - App</title>
-      {% else %}
-      <title>Welcome APP</title>
-      {% endif %}
-  </head>
- <body>
-        <h1>Hello, <b>{{ name }}</b> 👋!</h1>
-    <hr>
-      <blockquote>
-          "You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to."
-      </blockquote>
- </body>
- </html>
+{% extends "_base.html" %}
+{% block content %}
+
+<h1>Hello, <b>{{ name }}</b> 👋!</h1>
+<hr>
+<blockquote>
+  "You step onto the road, and if you don't keep your feet, there's no knowing where you might be swept off to."
+</blockquote>
+{% endblock %}

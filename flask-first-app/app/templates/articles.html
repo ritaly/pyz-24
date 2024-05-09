@@ -1,12 +1,13 @@
-<body>
-    <h1>Welcome on my blog!!!</h1>
+{% extends "_base.html" %}
+{% block content %}
+<h1>Welcome on my blog!!!</h1>
     {% for art in articles %}
     <article>
         <h2>
-            {{ art.title }}
+            >>> {{ art.title }}
         </h2>
         <p>Author: {{ art.author.nickname }}</p>
         <p>{{ art.body }}</p>
     </article>
    {% endfor %}
-</body>
+{% endblock %}

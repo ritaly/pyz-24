@@ -9,8 +9,8 @@ app.counter = 0
 def index():
     return render_template("index.html", title="Hellohello", name="Rita")
 
-@app.route("/blog")
-def blog():
+@app.route("/articles")
+def articles():
     posts = [
         {
             'author': {'nickname': 'John'},

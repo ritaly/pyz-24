@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget Manager App </title>
+</head>
+<body>
+    <h1>Budget Manager</h1>
+    <table>
+        <tr>
+            <th><b>Desc</b></th>
+             <th><b>Amount</b></th>
+             <th><b>Date</b></th>
+        </tr>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.description }}</td>
+            <td>{{ expense.amount }}</td>
+            <!-- if date nie dostaroczna to wyświetl - -->
+            <td>{{ expense.date }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

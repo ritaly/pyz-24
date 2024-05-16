@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Budget Manager App </title>
+</head>
+<body>
+    <h1>Edit Expense</h1>
+    <form action="{{ url_for('update_expense', id=expense.id )}}" method="post">
+        <label for="description">Description:</label><br>
+        <input type="text" id="description" name="description" value="{{expense.description}}" required><br>
+
+        <label for="amount">Amount:</label><br>
+        <input type="number" id="amount" name="amount"  value="{{expense.amount}}" required><br>
+
+        <label for="date">Date:</label><br>
+        <input type="date" id="date" name="date" value="{{expense.date}}"><br>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>

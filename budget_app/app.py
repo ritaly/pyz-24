@@ -1,29 +1,45 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
+from models.budget_manager import BudgetManger
 
 app = Flask(__name__)
+budget_manager = BudgetManger()
 
-class Expense:
-    def __init__(self, description, amount, date=None):
-        self.description = description
-        self.amount = amount
-        self.date = date
-
-
-exp = Expense('Frige', 2000)
-expenses_list = [exp]
 @app.route('/')
 def home():
-    return render_template('index.html', expenses=expenses_list)
+    return render_template('index.html', expenses=budget_manager.expenses)
 
 
+@app.route('/add', methods=['GET', 'POST'])
 def create_expense():
-    pass
+    if request.method == 'POST':
+        description = request.form['description']
+        amount = request.form['amount']
+        date = request.form['date']
+        budget_manager.add_expense(description, amount,date)
 
-def update_expense():
-    pass
+        return redirect(url_for('home'))
 
-def delete_expense():
-    pass
+    return render_template('add.html')
+
+
+@app.route('/edit/<int:id>', methods=['GET', 'POST'])
+def update_expense(id):
+    if request.method == 'GET':
+        expense = budget_manager.get_expense(id)
+        return render_template('edit.html', expense=expense)
+
+    if request.method == 'POST':
+        description = request.form['description']
+        amount = request.form['amount']
+        date = request.form['date']
+        budget_manager.update_expense(id, description, amount, date)
+        return redirect(url_for('home'))
+
+
+# @app.route('/delete/<int:id>', methods=['DELETE'])
+# def delete_expense(id):
+#     expenses_list.pop(id)
+#     return expenses_list
 
 
 if __name__ == '__main__':

@@ -36,10 +36,10 @@ def update_expense(id):
         return redirect(url_for('home'))
 
 
-# @app.route('/delete/<int:id>', methods=['DELETE'])
-# def delete_expense(id):
-#     expenses_list.pop(id)
-#     return expenses_list
+@app.route('/delete/<int:id>', methods=['POST'])
+def delete_expense(id):
+    budget_manager.delete_expense(id)
+    return redirect(url_for('home'))
 
 
 if __name__ == '__main__':

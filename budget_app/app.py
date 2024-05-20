@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for
-from models.budget_manager import BudgetManger
+from models.budget_manager import BudgetManger, InvalidExpenseError
 
 app = Flask(__name__)
 budget_manager = BudgetManger()
@@ -15,9 +15,12 @@ def create_expense():
         description = request.form['description']
         amount = request.form['amount']
         date = request.form['date']
-        budget_manager.add_expense(description, amount,date)
-
-        return redirect(url_for('home'))
+        try:
+            budget_manager.add_expense(description, amount,date)
+            return redirect(url_for('home'))
+        except InvalidExpenseError as err:
+            pass
+            #flash -> notyfikację
 
     return render_template('add.html')
 

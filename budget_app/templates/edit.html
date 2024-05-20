@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Budget Manager App </title>
-</head>
-<body>
+{% extends "_base.html" %}
+{% block content %}
     <h1>Edit Expense</h1>
     <form action="{{ url_for('update_expense', id=expense.id )}}" method="post">
         <label for="description">Description:</label><br>
@@ -18,5 +13,4 @@
         <br>
         <input type="submit" value="Submit">
     </form>
-</body>
-</html>
+{% endblock %}

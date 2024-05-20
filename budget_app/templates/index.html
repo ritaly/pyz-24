@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Budget Manager App </title>
-</head>
-<body>
+{% extends "_base.html" %}
+{% block content %}
     <h1>Budget Manager</h1>
     <table>
         <tr>
@@ -19,6 +14,8 @@
             <td>{{ expense.amount }}</td>
             <td>{{ expense.date }}</td>
             <td>
+               <a href="{{ url_for('update_expense', id=expense.id) }}">Edit</a>
+
                 <form action="{{ url_for('delete_expense', id=expense.id) }}" method="post" style="display:inline;">
                   <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>
@@ -26,5 +23,4 @@
         </tr>
         {% endfor %}
     </table>
-</body>
-</html>
+{% endblock %}

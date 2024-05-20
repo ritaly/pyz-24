@@ -1,16 +1,20 @@
 {% extends "_base.html" %}
 {% block content %}
-    <h1>Add New Expense</h1>
-    <form action="{{ url_for('create_expense') }}" method="post">
-        <label for="description">Description:</label><br>
-        <input type="text" id="description" name="description" required><br>
+    <h1 class="text-info">Add New Expense</h1>
+   <form action="{{ url_for('create_expense') }}" method="post">
+        <div class="row">
+        <div class="mb-3 col-4">
+        <label class="form-label" for="description">Description:</label><br>
+        <input class="form-control" type="text" id="description" name="description" required><br>
 
-        <label for="amount">Amount:</label><br>
-        <input type="number" id="amount" name="amount" required><br>
+        <label class="form-label" for="amount">Amount:</label><br>
+        <input class="form-control" type="number" id="amount" name="amount" required><br>
 
-        <label for="date">Date:</label><br>
-        <input type="date" id="date" name="date"><br>
+        <label class="form-label" for="date">Date:</label><br>
+        <input class="form-control" type="date" id="date" name="date"><br>
         <br>
-        <input type="submit" value="Submit">
+        <input class="form-control btn btn-success" type="submit" value="Submit">
+        </div>
+        </div>
     </form>
 {% endblock %}

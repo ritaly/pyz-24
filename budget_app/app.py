@@ -21,7 +21,7 @@ def create_expense():
             flash("Successfully created expense", "success")
             return redirect(url_for('home'))
         except InvalidExpenseError as err:
-            flash(f"{err}", "error")
+            flash(f"{err}", "danger")
 
     return render_template('add.html')
 
@@ -33,7 +33,7 @@ def update_expense(id):
             expense = budget_manager.get_expense(id)
             return render_template('edit.html', expense=expense)
         except NotFoundExpenseError as err:
-            flash(f"{err}", "error")
+            flash(f"{err}", "danger")
             return redirect(url_for('home'))
 
     if request.method == 'POST':
@@ -45,7 +45,7 @@ def update_expense(id):
             flash("Successfully edited expense", "success")
             return redirect(url_for('home'))
         except InvalidExpenseError as err:
-            flash(f"{err}")
+            flash(f"{err}", "danger")
             expense = budget_manager.get_expense(id)
             return render_template('edit.html', expense=expense)
 
@@ -56,7 +56,7 @@ def delete_expense(id):
         budget_manager.delete_expense(id)
         flash("Successfully deleted expense", "success")
     except InvalidExpenseError as err:
-        flash(f"{err}", "error")
+        flash(f"{err}", "danger")
     return redirect(url_for('home'))
 
 

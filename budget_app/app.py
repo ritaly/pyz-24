@@ -1,5 +1,5 @@
 from flask import Flask, flash, render_template, request, redirect, url_for
-from models.budget_manager import BudgetManger, InvalidExpenseError
+from models.budget_manager import BudgetManger, InvalidExpenseError, NotFoundExpenseError
 
 app = Flask(__name__)
 app.secret_key = 'secret-key'
@@ -28,15 +28,24 @@ def create_expense():
 @app.route('/edit/<int:id>', methods=['GET', 'POST'])
 def update_expense(id):
     if request.method == 'GET':
-        expense = budget_manager.get_expense(id)
-        return render_template('edit.html', expense=expense)
+        try:
+            expense = budget_manager.get_expense(id)
+            return render_template('edit.html', expense=expense)
+        except NotFoundExpenseError as err:
+            flash(f"{err}")
+            return redirect(url_for('home'))
 
     if request.method == 'POST':
         description = request.form['description']
-        amount = request.form['amount']
+        amount = float(request.form['amount'])
         date = request.form['date']
-        budget_manager.update_expense(id, description, amount, date)
-        return redirect(url_for('home'))
+        try:
+            budget_manager.update_expense(id, description, amount, date)
+            return redirect(url_for('home'))
+        except InvalidExpenseError as err:
+            flash(f"{err}")
+            expense = budget_manager.get_expense(id)
+            return render_template('edit.html', expense=expense)
 
 
 @app.route('/delete/<int:id>', methods=['POST'])

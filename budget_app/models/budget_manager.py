@@ -4,8 +4,10 @@ from .expense import Expense
 class InvalidExpenseError(Exception):
     pass
 
+
 class NotFoundExpenseError(Exception):
     pass
+
 
 class BudgetManger:
     def __init__(self):

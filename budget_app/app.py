@@ -17,10 +17,11 @@ def create_expense():
         amount = float(request.form['amount'])
         date = request.form['date']
         try:
-            budget_manager.add_expense(description, amount,date)
+            budget_manager.add_expense(description, amount, date)
+            flash("Successfully created expense", "success")
             return redirect(url_for('home'))
         except InvalidExpenseError as err:
-            flash(f"{err}")
+            flash(f"{err}", "error")
 
     return render_template('add.html')
 
@@ -32,7 +33,7 @@ def update_expense(id):
             expense = budget_manager.get_expense(id)
             return render_template('edit.html', expense=expense)
         except NotFoundExpenseError as err:
-            flash(f"{err}")
+            flash(f"{err}", "error")
             return redirect(url_for('home'))
 
     if request.method == 'POST':
@@ -41,6 +42,7 @@ def update_expense(id):
         date = request.form['date']
         try:
             budget_manager.update_expense(id, description, amount, date)
+            flash("Successfully edited expense", "success")
             return redirect(url_for('home'))
         except InvalidExpenseError as err:
             flash(f"{err}")
@@ -50,7 +52,11 @@ def update_expense(id):
 
 @app.route('/delete/<int:id>', methods=['POST'])
 def delete_expense(id):
-    budget_manager.delete_expense(id)
+    try:
+        budget_manager.delete_expense(id)
+        flash("Successfully deleted expense", "success")
+    except InvalidExpenseError as err:
+        flash(f"{err}", "error")
     return redirect(url_for('home'))
 
 

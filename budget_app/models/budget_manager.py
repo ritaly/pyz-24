@@ -12,7 +12,7 @@ class BudgetManger:
         self.expenses = []
         self.next_id = 1
 
-    def add_expense(self, description, amount, date):
+    def add_expense(self, description: str, amount: float, date: str):
         if not description or amount <= 0:
             raise InvalidExpenseError("Invalid expense data")
         new_expense = Expense(self.next_id, description, amount, date)

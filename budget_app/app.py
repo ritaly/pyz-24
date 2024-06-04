@@ -1,13 +1,19 @@
 from flask import Flask, flash, render_template, request, redirect, url_for
+
+from controllers.budget import budget_bp
 from models.budget_manager import BudgetManger, InvalidExpenseError, NotFoundExpenseError
 
 app = Flask(__name__)
 app.secret_key = 'secret-key'
 budget_manager = BudgetManger()
 
+app.register_blueprint(budget_bp)
+
+
 @app.route('/')
+@app.route('/index')
 def home():
-    return render_template('index.html', expenses=budget_manager.expenses)
+    return 'Hello hello!'
 
 
 @app.route('/add', methods=['GET', 'POST'])

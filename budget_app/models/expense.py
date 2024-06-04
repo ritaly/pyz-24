@@ -1,6 +1,8 @@
-class Expense:
-    def __init__(self, id, description, amount, date=None):
-        self.id = id
-        self.description = description
-        self.amount = amount
-        self.date = date
+from database import db
+
+
+class Expense(db.Model):
+    id = db.Column(db.Integer,  primary_key=True)
+    description = db.Column(db.String(200), unique=False, nullable=False)
+    amount = db.Column(db.Float, unique=False, nullable=False)
+    date = db.Column(db.Date, nullable=True)

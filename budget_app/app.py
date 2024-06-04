@@ -1,9 +1,16 @@
 from flask import Flask
-
-from controllers.budget import budget_bp
+from database import db
+from controllers.budget.views import budget_bp
 
 app = Flask(__name__)
 app.secret_key = 'secret-key'
+
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
+with app.app_context():
+    db.create_all()
 
 app.register_blueprint(budget_bp)
 

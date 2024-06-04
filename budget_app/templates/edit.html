@@ -1,7 +1,7 @@
 {% extends "_base.html" %}
 {% block content %}
     <h1 class="text-info">Edit Expense</h1>
-    <form action="{{ url_for('update_expense', id=expense.id )}}" method="post">
+    <form action="{{ url_for('budget.update_expense', id=expense.id )}}" method="post">
         <div class="row">
         <div class="mb-3 col-4">
         <label class="form-label" for="description">Description:</label><br>

@@ -11,6 +11,7 @@ app.register_blueprint(budget_bp)
 @app.route('/')
 @app.route('/index')
 def home():
+    # TODO: add index.html template
     return 'Hello hello!'
 
 

@@ -22,7 +22,7 @@
             list_products.html
         /models
             __init__.py
-            models.py
+            product.py
         /repositories
             __init__.py
             product_repository.py

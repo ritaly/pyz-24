@@ -1,12 +1,7 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from app.app_init import create_app
 
+app = create_app()
 
-app = Flask(__name__)
-
-app.config.from_object('config.Config')
-db = SQLAlchemy()
-db.init_app(app)
 
 @app.route('/')
 def home():

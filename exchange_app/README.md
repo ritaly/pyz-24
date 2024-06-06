@@ -11,12 +11,12 @@
     /app
         __init__.py
         app_init.py
-        /static
-            /css
-                style.css
-            /js
-                script.js
-        /templates
+        /UI
+            /static
+               /css
+                   style.css
+               /js
+                   script.js
             index.html
             add_product.html
             list_products.html

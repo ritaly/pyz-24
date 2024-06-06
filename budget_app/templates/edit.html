@@ -1,0 +1,20 @@
+{% extends "_base.html" %}
+{% block content %}
+    <h1 class="text-info">Edit Expense</h1>
+    <form action="{{ url_for('budget.update_expense', id=expense.id )}}" method="post">
+        <div class="row">
+        <div class="mb-3 col-4">
+        <label class="form-label" for="description">Description:</label><br>
+        <input class="form-control" type="text" id="description" name="description"  value="{{expense.description}}" required><br>
+
+        <label class="form-label" for="amount">Amount:</label><br>
+        <input class="form-control" type="number" id="amount" value="{{expense.amount}}" name="amount" required><br>
+
+        <label class="form-label" for="date">Date:</label><br>
+        <input class="form-control" type="date" id="date" value="{{expense.date}}" name="date"><br>
+        <br>
+        <input class="form-control btn btn-success" type="submit" value="Submit">
+        </div>
+        </div>
+    </form>
+{% endblock %}

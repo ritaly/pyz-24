@@ -1,0 +1,28 @@
+{% extends "_base.html" %}
+{% block content %}
+    <h1>Budget Manager</h1>
+    <table class="table table-striped">
+        <tr class="table-info">
+            <th><b>ID</b></th>
+            <th><b>Desc</b></th>
+             <th><b>Amount</b></th>
+             <th><b>Date</b></th>
+            <th><b>Actions</b></th>
+        </tr>
+        {% for expense in expenses %}
+        <tr>
+            <td>{{ expense.id }}</td>
+            <td>{{ expense.description }}</td>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.date }}</td>
+            <td>
+               <a class="btn btn-info btn-sm" href="{{ url_for('budget.update_expense', id=expense.id) }}">Edit</a>
+
+                <form action="{{ url_for('budget.delete_expense', id=expense.id) }}" method="post" style="display:inline;">
+                  <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

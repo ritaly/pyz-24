@@ -2,6 +2,7 @@ from models.expense import Expense
 from database import db
 from datetime import date
 
+
 class InvalidExpenseError(Exception):
     pass
 

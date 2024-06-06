@@ -11,6 +11,7 @@ def create_app():
     db.init_app(app)
 
     # bluprints
-    # with app.app_context(): db.create_all()
+    with app.app_context():
+        db.create_all()
 
     return app

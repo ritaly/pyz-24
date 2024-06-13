@@ -11,3 +11,5 @@ class Product(db.Model):
     price_pln = db.Column(db.Float)
     last_updated = db.Column(db.DateTime, default=datetime.utcnow())
     source = db.Column(db.String(30), nullable=True)
+
+### product do dict

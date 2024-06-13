@@ -13,6 +13,10 @@ def create_app():
     def home():
         return send_from_directory('UI', 'index.html')
 
+    @app.route('/products')
+    def list_products():
+        return send_from_directory('UI', 'list_products.html')
+
     app.register_blueprint(product_bp, url_prefix='/api/')
 
     with app.app_context():

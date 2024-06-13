@@ -1,5 +1,8 @@
-from ..app_init import db
+
 from datetime import datetime
+
+from ..database import db
+
 
 class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)

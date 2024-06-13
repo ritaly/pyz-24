@@ -6,12 +6,14 @@
 </head>
 <body>
     <h1>Product Management</h1>
-    <form action="/api/products" method="post">
+    <form action="/api" method="post">
         <input type="text" name="name" placeholder="Product Name" required>
         <input type="number" name="price_usd" placeholder="Price in USD" required>
+        <input type="text" name="source" placeholder="Product source" >
+
         <button type="submit">Add Product</button>
     </form>
-    OR
+<!--    OR-->
 <!--    <form action="/api/upload_csv" method="post" enctype="multipart/form-data">-->
 <!--        <input type="file" name="file" accept=".csv">-->
 <!--        <button type="submit">Upload CSV</button>-->

@@ -9,15 +9,8 @@ product_bp = Blueprint('products', __name__)
 @product_bp.route('/', methods=['GET'])
 def list_products():
     products = ProductRepository.get_all_products()
-    return jsonify(
-        [
-            { 'id': p.id,
-              'name': p.name,
-              'price_usd': p.price_usd,
-              'price_pln': p.price_pln
-              } for p in products
-        ]
-    )
+    return jsonify([product.to_dict() for product in products]) # list comprehention same as for p in products...
+
 
 
 @product_bp.route('/', methods=['POST'])

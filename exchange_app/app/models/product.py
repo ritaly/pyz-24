@@ -12,4 +12,12 @@ class Product(db.Model):
     last_updated = db.Column(db.DateTime, default=datetime.utcnow())
     source = db.Column(db.String(30), nullable=True)
 
-### product do dict
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'price_usd': self.price_usd,
+            'price_pln': self.price_pln,
+            'last_updated': self.last_updated.isoformat() if self.last_updated else None,
+            'source': self.source
+        }

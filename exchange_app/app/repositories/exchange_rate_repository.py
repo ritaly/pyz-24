@@ -9,10 +9,8 @@ def convert_to_pln(price_usd):
     response = requests.get(base_url)
     if response.status_code == 200:
         exchange_data = response.json()
-        rate_USD_PLN = exchange_data.get('conversion_rate')
-        print(rate_USD_PLN)
-
-        price_pln = float(price_usd) * rate_USD_PLN
+        rate_usd_pln = exchange_data.get('conversion_rate')
+        price_pln = float(price_usd) * rate_usd_pln
     else:
         price_pln = 0
         print('Nieudało sie pobrać kursu wymiany walut')

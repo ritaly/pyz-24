@@ -13,3 +13,8 @@ def home():
 @static_bp.route('/products')
 def products():
     return send_from_directory('UI', 'list_products.html')
+
+
+@static_bp.route('/edit-product/<int:product_id>')
+def edit_product(product_id):
+    return send_from_directory('UI', 'edit_product.html')

@@ -31,3 +31,4 @@ env/
 
 # Miscellaneous
 .DS_Store
+/exchange_app/instance/

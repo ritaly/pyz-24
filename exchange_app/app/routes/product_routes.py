@@ -28,7 +28,7 @@ def create_product():
     price_pln = convert_to_pln(price_usd)
 
     ProductRepository.create_product(name, price_usd, price_pln, source)
-    return redirect(url_for('home'))
+    return redirect(url_for('static_pages.products'))
 
 # HOMEWORK
 # update

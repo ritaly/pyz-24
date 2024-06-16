@@ -10,7 +10,7 @@ def create_app():
     app.config.from_object('config.Config')
     db.init_app(app)
 
-    app.register_blueprint(static_bp)
+    app.register_blueprint(static_bp, url_prefix='')
     app.register_blueprint(product_bp, url_prefix='/api/')
 
     with app.app_context():

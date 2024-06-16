@@ -6,7 +6,7 @@ from ..repositories.product_repository import ProductRepository
 
 product_bp = Blueprint('products', __name__)
 
-product_repo = ProductRepository(db)
+product_repo = ProductRepository(db, convert_to_pln)
 
 
 @product_bp.route('/', methods=['GET'])
@@ -17,18 +17,21 @@ def list_products():
 
 @product_bp.route('/', methods=['POST'])
 def create_product():
-    name = request.form['name']
+    name = request.form.get('name')
+    price_usd = request.form.get('price_usd')
+    source = request.form.get('source')
+
+    if not name or not price_usd:
+        return jsonify({'error': 'Missing required data'}), 400
+
     try:
-        price_usd = float(request.form['price_usd'])
+        price_usd = float(price_usd)
     except ValueError:
         return jsonify({'error': 'Invalid input for price'}), 400
 
-    source = request.form['source']
-    price_pln = convert_to_pln(price_usd)
-
-    product = product_repo.create_product(name, price_usd, price_pln, source)
+    product = product_repo.create_product(name, price_usd, source)
     if product:
-        return redirect(url_for('static_pages.products')), 201
+        return redirect(url_for('static_pages.products'))
     else:
         return jsonify({'error': 'Failed to create product'}), 400
 
@@ -38,7 +41,14 @@ def update_product_route(product_id):
     data = request.json
     if 'name' not in data or 'price_usd' not in data:
         return jsonify({'error': 'Missing required data'}), 400
-    if product_repo.update_product(product_id, data['name'], data['price_usd']):
+
+    try:
+        data['price_usd'] = float(data['price_usd'])
+    except ValueError:
+        return jsonify({'error': 'Invalid input for price'}), 400
+
+    updated_product = product_repo.update_product(product_id, data)
+    if updated_product:
         return jsonify({'message': 'Product updated successfully'}), 200
     else:
         return jsonify({'error': 'Product not found or update failed'}), 404

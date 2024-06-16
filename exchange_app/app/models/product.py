@@ -5,7 +5,7 @@ from ..database import db
 
 
 class Product(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(80), nullable=False)
     price_usd = db.Column(db.Float, nullable=False)
     price_pln = db.Column(db.Float)

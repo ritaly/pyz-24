@@ -1,30 +1,39 @@
 from ..models.product import Product
 import pandas as pd
 
-class ProductRepository:
-    def __init__(self, db):
-        self.db = db
 
-    def get_all_products(self):
+class ProductRepository:
+    def __init__(self, db, convert_currency):
+        self.db = db
+        self.convert_currency = convert_currency
+
+    @staticmethod
+    def get_all_products():
         return Product.query.all()
 
-    def create_product(self, name, price_usd, price_pln, source):
+    def create_product(self, name, price_usd, source):
         if not name or not price_usd:
             return None
+        price_usd = float(price_usd)
+        price_pln = self.convert_currency(price_usd)
         new_product = Product(name=name, price_usd=price_usd, price_pln=price_pln, source=source)
         self.db.session.add(new_product)
         self.db.session.commit()
         return new_product
 
-    def update_product(self, product_id, name, price_usd, price_pln, last_updated, source):
+    def update_product(self, product_id, data):
         product = self.get_product(product_id)
         if not product:
             return None
-        product.name = name
-        product.price_usd = price_usd
-        product.price_pln = price_pln
-        product.last_updated = last_updated
-        product.source = source
+
+        if 'price_usd' in data:
+            product.price_usd = float(data['price_usd'])
+            product.price_pln = self.convert_currency(product.price_usd)
+
+        product.name = data.get('name', product.name)
+        product.last_updated = data.get('last_updated', product.last_updated)
+        product.source = data.get('source', product.source)
+
         self.db.session.commit()
         return product
 
@@ -34,6 +43,7 @@ class ProductRepository:
             return None
         self.db.session.delete(product)
         self.db.session.commit()
+        return True
 
     @staticmethod
     def get_product(product_id):

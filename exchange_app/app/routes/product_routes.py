@@ -1,40 +1,77 @@
 from flask import Blueprint, request, redirect, url_for, jsonify
+from werkzeug.utils import secure_filename
 
+from ..database import db
 from ..repositories.exchange_rate_repository import convert_to_pln
 from ..repositories.product_repository import ProductRepository
 
 product_bp = Blueprint('products', __name__)
 
+product_repo = ProductRepository(db, convert_to_pln)
+
 
 @product_bp.route('/', methods=['GET'])
 def list_products():
-    products = ProductRepository.get_all_products()
-    return jsonify(
-        [
-            { 'id': p.id,
-              'name': p.name,
-              'price_usd': p.price_usd,
-              'price_pln': p.price_pln
-              } for p in products
-        ]
-    )
+    products = product_repo.get_all_products()
+    return jsonify([product.to_dict() for product in products]), 200
 
 
 @product_bp.route('/', methods=['POST'])
 def create_product():
-    name = request.form['name']
-    price_usd = request.form['price_usd']
-    source = request.form['source']
-    price_pln = convert_to_pln(price_usd)
+    name = request.form.get('name')
+    price_usd = request.form.get('price_usd')
+    source = request.form.get('source')
 
-    ProductRepository.create_product(name, price_usd, price_pln, source)
-    return redirect(url_for('home'))
+    if not name or not price_usd:
+        return jsonify({'error': 'Missing required data'}), 400
 
-# HOMEWORK
-# update
+    try:
+        price_usd = float(price_usd)
+    except ValueError:
+        return jsonify({'error': 'Invalid input for price'}), 400
 
-# delete
+    product = product_repo.create_product(name, price_usd, source)
+    if product:
+        return redirect(url_for('static_pages.products')), 201
+    else:
+        return jsonify({'error': 'Failed to create product'}), 400
 
 
+@product_bp.route('/products/<int:product_id>', methods=['GET'])
+def get_product(product_id):
+    product = product_repo.get_product(product_id)
+    return jsonify(product.to_dict()), 200
 
 
+@product_bp.route('/products/<int:product_id>', methods=['PUT'])
+def update_product_route(product_id):
+    data = request.json
+    if 'name' not in data or 'price_usd' not in data:
+        return jsonify({'error': 'Missing required data'}), 400
+
+    try:
+        data['price_usd'] = float(data['price_usd'])
+    except ValueError:
+        return jsonify({'error': 'Invalid input for price'}), 400
+
+    updated_product = product_repo.update_product(product_id, data)
+    if updated_product:
+        return jsonify({'message': 'Product updated successfully'}), 200
+    else:
+        return jsonify({'error': 'Product not found or update failed'}), 404
+
+
+@product_bp.route('/products/<int:product_id>', methods=['DELETE'])
+def delete_product_route(product_id):
+    if not product_repo.delete_product(product_id):
+        return jsonify({'error': 'Product not found'}), 404
+    return jsonify({'message': 'Product deleted successfully'}), 200
+
+
+@product_bp.route('/upload_csv', methods=['POST'])
+def upload_csv():
+    file = request.files['file']
+    file_path = '/uploads' + secure_filename(file.filename)
+    file.save(file_path)
+    product_repo.load_products_from_csv(file_path)
+    return jsonify({'message': 'Products loaded and prices updated from CSV'})

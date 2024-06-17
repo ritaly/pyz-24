@@ -15,5 +15,5 @@ def convert_to_pln(price_usd):
         price_pln = float(price_usd) * rate_usd_pln
     else:
         price_pln = 0
-        print('Nieudało sie pobrać kursu wymiany walut')
+        print('Error on conversion rate')
     return price_pln

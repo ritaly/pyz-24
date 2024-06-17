@@ -49,3 +49,18 @@ class ProductRepository:
     def get_product(product_id):
         return Product.query.get(product_id)
 
+    def load_products_from_csv(self, file_path):
+        data = pd.read_csv(file_path)
+        for _, row in data.iterrows():
+            self.create_product(
+                name=row['name'],
+                price_usd=row['price_usd'],
+                source=row.get('source', 'Unknown')
+            )
+""" csv format:
+name,price_usd,source
+Product 1,10.99,Source A
+Product 2,15.49,Source B
+Product 3,8.99,
+Product 4,12.75,Source D
+"""

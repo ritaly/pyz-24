@@ -1,4 +1,5 @@
 from flask import Blueprint, request, redirect, url_for, jsonify
+from werkzeug.utils import secure_filename
 
 from ..database import db
 from ..repositories.exchange_rate_repository import convert_to_pln
@@ -59,8 +60,18 @@ def update_product_route(product_id):
     else:
         return jsonify({'error': 'Product not found or update failed'}), 404
 
+
 @product_bp.route('/products/<int:product_id>', methods=['DELETE'])
 def delete_product_route(product_id):
     if not product_repo.delete_product(product_id):
         return jsonify({'error': 'Product not found'}), 404
     return jsonify({'message': 'Product deleted successfully'}), 200
+
+
+@product_bp.route('/upload_csv', methods=['POST'])
+def upload_csv():
+    file = request.files['file']
+    file_path = '/uploads' + secure_filename(file.filename)
+    file.save(file_path)
+    product_repo.load_products_from_csv(file_path)
+    return jsonify({'message': 'Products loaded and prices updated from CSV'})

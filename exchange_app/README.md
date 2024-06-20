@@ -31,4 +31,6 @@
             product_routes.py
     app.py
     config.py
+    requirements.txt
+
 ```
